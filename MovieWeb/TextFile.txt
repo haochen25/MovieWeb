@@ -1,0 +1,66 @@
+﻿C# and .NET Core
+1. What are differences between .NET Framework and .NET Core.
+2. Can you explain some new features from C# 7, 8,9 and 10 version?
+3. What is garbage collector? What is its purpose? What are the different generations in
+garbage collector?
+4. What is the difference between value type and reference type variables? What is boxing
+and unboxing in reference type variable?
+5. What is meant by the terms managed resource and unmanaged resource in .NET
+6. What is IDisposable interface and it’s dispose method, does it depend on garbage
+collector and where would you use IDisposable interface?
+7. What is Reflection? Give me examples of where you have used Reflection?
+8. Explain Serialization and how can we achieve XML and JSON serialization
+9. Explain different access modifiers in C#?
+● public
+● private
+● protected
+● internal
+● protected internal
+● private protected
+10.Explain following keywords in C#
+● static
+● var
+● sealed
+● const vs readonly
+● ref vs out
+● yield
+● record
+● partial
+● try catch finally
+● using statement and using directive
+● abstract
+● override
+● dynamic
+11.Explain scenarios where you would use String vs StringBuilder?
+12. Explain Object-Oriented Concepts (OOPS) in .NET with examples from your project
+● Abstraction
+● Encapsulation
+● Inheritance
+● Polymorphism
+13.Compare virtual methods and abstract methods?
+14.Differences between overloading and overriding?
+15.What are generics and tell me scenarios where you have generics in your projects? What does generic constraints do?
+16.What is the difference between a generic and a non-generic collection? What are the different collection classes in C#?
+17.Why do you think we need an abstract class, why do you need an interface? Give few
+examples, where you have used abstract classes and interfaces in your project.
+18.What are extension methods and give me examples of built-in extension methods.
+Have you created an extension method in your project? If yes, how with examples?
+19.What are lambda expressions, where have u used lambda expressions
+20.Tell what is LINQ? And give me scenarios where you have used LINQ in your projects.
+21.Differed Execution and immediate execution in LINQ?
+22.Write LINQ, GroupBy, Join, and Where conditions.
+23.Differences between First, FirstOrDefault, Single, SingleOrDefault in LINQ
+24.Anonymous types and methods
+25.What are delegates in .NET, and can you tell differences between Func, Action and Predicate.
+26.What is difference between IEnumerable and IQueryable
+27.Explain async and await keywords in C#. Give me scenarios where you have you used
+in your projects?
+28.Do you know how can we make HTTP Requests in C#? Can you explain what
+IHttpContextAccessor is?
+29.Difference between Task vs Thread vs Process
+30.What does lock keyword does? Give me example of it where you have used?
+31.Can you tell difference between Task.WhenAll and Task.WhenAny?
+32.What’s is the purpose of ConfigureAwait() ?
+33.What’s the difference between asynchronous programming and Multithreaded programming?
+asynchronous programming is a way to pause and resume tasks without blocking the main thread, it may use one or multiple threads,
+while multithreaded programming is executing multiple threads at the same time, it always use multiple threads
