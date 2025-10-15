@@ -13,9 +13,9 @@ namespace Infrastructure.Services
     public class MovieService : IMovieService
     { 
         private readonly IMovieRepository _movieRepository;
-        public MovieService(IMovieRepository movieRepository)
+        public MovieService(IMovieRepository MovieRepository)
         {
-            _movieRepository = movieRepository;
+            _movieRepository = MovieRepository;
         }
         public List<MovieCard> GetTop30GrossingMovies()
         {
@@ -26,6 +26,49 @@ namespace Infrastructure.Services
                 result.Add(new MovieCard { Id = movie.Id, Title = movie.Title, PosterUrl = movie.PosterUrl });
             }
             return result;
+        }
+        public async Task<MovieDetailModel> GetMovieDetail(int id)
+        {
+            var movie = await _movieRepository.GetById(id);
+            if (movie == null) return null;
+            var movieDetail = new MovieDetailModel
+            {
+                Id = movie.Id,
+                Title = movie.Title,
+                PosterUrl = movie.PosterUrl,
+                BackdropUrl = movie.BackdropUrl,
+                Tagline = movie.Tagline,
+                Overview = movie.Overview,
+                Budget = movie.Budget,
+                Revenue = movie.Revenue,
+                ImdbUrl = movie.ImdbUrl,
+                TmdbUrl = movie.TmdbUrl,
+                ReleaseDate = movie.ReleaseDate,
+                RunTime = movie.RunTime,
+                Rating = movie.Reviews.Any() ? (decimal)movie.Reviews.Average(r => r.Rating) : 0
+            };
+            movieDetail.Casts = new List<CastModel>();
+            foreach(var cast in movie.CastsOfMovie)
+            {
+                movieDetail.Casts.Add(new CastModel
+                {
+                    Id = cast.Cast.Id,
+                    Name = cast.Cast.Name,
+                    Character = cast.Character,
+                    ProfilePath = cast.Cast.ProfilePath
+                });
+            }
+            movieDetail.Trailers = new List<TrailerModel>();
+            foreach(var trailer in movie.Trailers)
+            {
+                movieDetail.Trailers.Add(new TrailerModel { Id = trailer.Id, Name = trailer.Name, TrailerUrl = trailer.TrailerUrl });
+            }
+            movieDetail.Genres = new List<GenreModel>();
+            foreach (var genre in movie.GenresOfMovie)
+            {
+                movieDetail.Genres.Add(new GenreModel { Id = genre.GenreId, Name = genre.Genre.Name});
+            }
+            return movieDetail;
         }
 
     }

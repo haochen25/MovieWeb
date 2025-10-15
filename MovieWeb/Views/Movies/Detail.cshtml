@@ -1,0 +1,83 @@
+﻿@model ApplicationCore.Models.MovieDetailModel
+
+<div class="container mt-4">
+
+    <!-- Movie Header -->
+    <div class="row">
+        <div class="col-md-4">
+            <img src="@Model.PosterUrl" alt="Poster of @Model.Title" class="img-fluid rounded shadow" />
+        </div>
+        <div class="col-md-8">
+            <h1 class="fw-bold">@Model.Title</h1>
+            @if (!string.IsNullOrEmpty(Model.Tagline))
+            {
+                <h5 class="text-muted fst-italic">"@Model.Tagline"</h5>
+            }
+            <p class="mt-3">@Model.Overview</p>
+            <ul class="list-unstyled mt-3">
+                <li><strong>Release Date:</strong> @Model.ReleaseDate</li>
+                <li><strong>Runtime:</strong> @Model.RunTime mins</li>
+                <li><strong>Budget:</strong> $@Model.Budget</li>
+                <li><strong>Revenue:</strong> $@Model.Revenue</li>
+                <li><strong>Rating:</strong> ⭐ @Model.Rating</li>
+            </ul>
+
+            <!-- External Links -->
+            <div class="mt-3">
+                @if (!string.IsNullOrEmpty(Model.ImdbUrl))
+                {
+                    <a href="@Model.ImdbUrl" class="btn btn-warning me-2" target="_blank">IMDb</a>
+                }
+                @if (!string.IsNullOrEmpty(Model.TmdbUrl))
+                {
+                    <a href="@Model.TmdbUrl" class="btn btn-info" target="_blank">TMDb</a>
+                }
+            </div>
+        </div>
+    </div>
+
+    <hr class="my-4" />
+
+    <!-- Genres -->
+    <div class="mb-4">
+        <h4>Genres</h4>
+        <div>
+            @foreach (var genre in Model.Genres)
+            {
+                <span class="badge bg-secondary me-1">@genre.Name</span>
+            }
+        </div>
+    </div>
+
+    <!-- Cast Section -->
+    <div class="mb-4">
+        <h4>Cast</h4>
+        <div class="row">
+            @foreach (var cast in Model.Casts)
+            {
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 text-center mb-3">
+                    <img src="@cast.ProfilePath" alt="@cast.Name" class="img-fluid rounded mb-2" />
+                    <p class="fw-bold mb-0">@cast.Name</p>
+                    <small class="text-muted">@cast.Character</small>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Trailers Section -->
+    <div class="mb-4">
+        <h4>Trailers</h4>
+        <div class="row">
+            @foreach (var trailer in Model.Trailers)
+            {
+                <div class="col-md-6 mb-3">
+                    <div class="ratio ratio-16x9">
+                        <iframe src="@trailer.TrailerUrl.Replace("watch?v=", "embed/")" title="@trailer.Name" allowfullscreen></iframe>
+                    </div>
+                    <p class="mt-2 text-center fw-semibold">@trailer.Name</p>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>

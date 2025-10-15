@@ -18,7 +18,8 @@ namespace MovieWeb.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var movies = _movieService.GetTop30GrossingMovies();
+            return View(movies);
         }
 
         public IActionResult Privacy()
