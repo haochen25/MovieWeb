@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Entities;
+using ApplicationCore.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 namespace ApplicationCore.Contracts.Repositories
 {
     public interface IMovieRepository : IRepository<Movie>
-    {   public IEnumerable<Movie> GetTop30GrossingMovies();
-        public IEnumerable<Movie> GetMoviesByGenre(int id);
+    {   public Task<IEnumerable<Movie>> GetTop30GrossingMovies();
+        public Task<PagedResultSet<Movie>> GetMoviesByGenre(int genreId, int pageIndex,int pageSize);
     }
 }

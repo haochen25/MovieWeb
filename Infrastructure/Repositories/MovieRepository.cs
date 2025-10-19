@@ -1,5 +1,6 @@
 ﻿using ApplicationCore.Contracts.Repositories;
 using ApplicationCore.Entities;
+using ApplicationCore.Models;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -24,20 +25,35 @@ namespace Infrastructure.Repositories
                                          .FirstOrDefaultAsync(m => m.Id == id);
             return movie;
         }
-        public IEnumerable<Movie> GetTop30GrossingMovies()
-        {
-            var movies = _dbContext.Movies.OrderByDescending(m => m.Revenue).Take(30).ToList();
-            return movies;
-        }
+
         public IEnumerable<Movie> GetTop30RatedMovies()
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Movie> GetMoviesByGenre(int id)
+
+        public async Task<IEnumerable<Movie>> GetTop30GrossingMovies()
         {
-            throw new NotImplementedException();
+            var movies = await _dbContext.Movies.OrderByDescending(m => m.Revenue).Take(30).ToListAsync();
+            return movies;
         }
 
+        public async Task<PagedResultSet<Movie>> GetMoviesByGenre(int genreId, int pageIndex,int pageSize)
+        {
+            var movies = await _dbContext.MovieGenres
+                .Where(mg => mg.GenreId == genreId)
+                .Select(mg => mg.Movie)
+                .OrderBy(m => m.Id)
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+            var totalCount = await _dbContext.MovieGenres
+                .Where(mg => mg.GenreId == genreId)
+                .Select(mg => mg.Movie)
+                .CountAsync();
+            var pagedResult = new PagedResultSet<Movie>(movies, totalCount, pageIndex, pageSize);
+            return pagedResult;
+
+        }
     }
 }

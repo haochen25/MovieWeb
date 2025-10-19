@@ -17,9 +17,9 @@ namespace Infrastructure.Services
         {
             _movieRepository = MovieRepository;
         }
-        public List<MovieCard> GetTop30GrossingMovies()
+        public async Task<List<MovieCard>> GetTop30GrossingMovies()
         {
-            var movies = _movieRepository.GetTop30GrossingMovies();
+            var movies = await _movieRepository.GetTop30GrossingMovies();
             var result = new List<MovieCard>();
             foreach(var movie in movies)
             {
@@ -69,6 +69,16 @@ namespace Infrastructure.Services
                 movieDetail.Genres.Add(new GenreModel { Id = genre.GenreId, Name = genre.Genre.Name});
             }
             return movieDetail;
+        }
+        public async Task<PagedResultSet<MovieCard>> GetMoviesByGenre(int id, int pageIndex = 1, int pageSize = 30)
+        {
+            var movies = await _movieRepository.GetMoviesByGenre(id,pageIndex,pageSize);
+            var result = new List<MovieCard>();
+            foreach (var movie in movies.Data)
+            {
+                result.Add(new MovieCard { Id = movie.Id, Title = movie.Title, PosterUrl = movie.PosterUrl });
+            }
+            return new PagedResultSet<MovieCard>(result, movies.TotalCount, pageIndex, pageSize);
         }
 
     }
