@@ -36,15 +36,37 @@ namespace Infrastructure.Services
                 Salt = salt,
                 HashedPassword = hashedPassword,
                 FirstName = registerModel.FirstName,
-                LastName = registerModel.LastName
+                LastName = registerModel.LastName,
+                DateOfBirth = registerModel.DateOfBirth
             };
             await _userRepository.Add(newUser);
             return true;
         }
 
-        public async Task<bool> ValidateUser(LoginModel loginModel)
+        public async Task<UserInfoModel> ValidateUser(LoginModel loginModel)
         {
-            throw new NotImplementedException();
+            var existingUser = await _userRepository.GetUserByEmail(loginModel.Email);
+            if (existingUser == null) 
+            {
+                throw new Exception("user not exist, please try again");
+            }
+            var hashedPassword = getHashedPassword(loginModel.Password, existingUser.Salt);
+            if (hashedPassword.Equals(existingUser.HashedPassword))
+            {
+               var userInfo = new UserInfoModel
+               {
+                   Id = existingUser.Id,
+                   Email = existingUser.Email,
+                   FirstName = existingUser.FirstName,
+                   LastName = existingUser.LastName,
+                   DateOfBirth = existingUser.DateOfBirth ?? DateTime.MinValue
+               };
+                return userInfo;
+            }
+            else
+            {
+                throw new Exception("invalid password, please try again");
+            }
         }
         private string getRandomSalt()
         {

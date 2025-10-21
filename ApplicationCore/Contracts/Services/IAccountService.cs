@@ -10,6 +10,6 @@ namespace ApplicationCore.Contracts.Services
     public interface IAccountService
     {
         public Task<bool> RegisterUser(RegisterModel registerModel);
-        public Task<bool> ValidateUser(LoginModel loginModel);
+        public Task<UserInfoModel> ValidateUser(LoginModel loginModel);
     }
 }
