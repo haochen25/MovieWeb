@@ -22,6 +22,10 @@ namespace MovieWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterModel registerModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
             var result = await _accountService.RegisterUser(registerModel);
             return RedirectToAction("Login");
         }
@@ -44,6 +48,11 @@ namespace MovieWeb.Controllers
             };
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+            return LocalRedirect("/");
+        }
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
             return LocalRedirect("/");
         }
     }

@@ -5,6 +5,7 @@ using Infrastructure.Repositories;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using MovieWeb.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +14,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IMovieRepository, MovieRepository>();
-
+builder.Services.AddScoped<ICurrentUser, CurrentUser>();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IMovieService, MovieService>();
 builder.Services.AddDbContext<MovieWebDbContext>(options =>
 {
