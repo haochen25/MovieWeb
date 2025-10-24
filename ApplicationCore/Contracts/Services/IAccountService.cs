@@ -1,4 +1,5 @@
-﻿using ApplicationCore.Models;
+﻿using ApplicationCore.Entities;
+using ApplicationCore.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace ApplicationCore.Contracts.Services
 {
     public interface IAccountService
     {
-        public Task<bool> RegisterUser(RegisterModel registerModel);
+        public Task<User> RegisterUser(RegisterModel registerModel);
         public Task<UserInfoModel> ValidateUser(LoginModel loginModel);
     }
 }

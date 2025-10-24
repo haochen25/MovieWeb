@@ -7,10 +7,10 @@ using System.Security.Claims;
 
 namespace MovieWeb.Controllers
 {
-    public class AccountsController : Controller
+    public class AccountController : Controller
     {
         IAccountService _accountService;
-        public AccountsController(IAccountService accountService)
+        public AccountController(IAccountService accountService)
         {
             _accountService = accountService;
         }

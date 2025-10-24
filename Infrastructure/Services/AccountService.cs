@@ -20,13 +20,13 @@ namespace Infrastructure.Services
         {
             _userRepository = userRepository;
         }
-        public async Task<bool> RegisterUser(RegisterModel registerModel)
+        public async Task<User> RegisterUser(RegisterModel registerModel)
         {
             var existingUser = await _userRepository.GetUserByEmail(registerModel.Email);
-            if (existingUser != null)
+            if (existingUser == null)
             {
                 // User with the same email already exists
-                throw new Exception("User with this email already exists.");
+                return null;
             }
             var salt = getRandomSalt();
             var hashedPassword = getHashedPassword(registerModel.Password, salt);
@@ -40,7 +40,7 @@ namespace Infrastructure.Services
                 DateOfBirth = registerModel.DateOfBirth
             };
             await _userRepository.Add(newUser);
-            return true;
+            return newUser;
         }
 
         public async Task<UserInfoModel> ValidateUser(LoginModel loginModel)
@@ -48,7 +48,7 @@ namespace Infrastructure.Services
             var existingUser = await _userRepository.GetUserByEmail(loginModel.Email);
             if (existingUser == null) 
             {
-                throw new Exception("user not exist, please try again");
+                return null;
             }
             var hashedPassword = getHashedPassword(loginModel.Password, existingUser.Salt);
             if (hashedPassword.Equals(existingUser.HashedPassword))
